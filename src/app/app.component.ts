@@ -1,15 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { TodoItem } from './TodoItem';
 import { TodoList } from './TodoList';
-import { FormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +25,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatTableModule,
     MatCheckboxModule,
     MatFormFieldModule,
+    FormsModule,
+    MatInputModule,
+    MatSlideToggleModule,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
@@ -40,11 +45,14 @@ export class AppComponent {
     return this.list.items.filter((item) => !item.complete).length;
   }
   get items(): readonly TodoItem[] {
-    return this.list.items.filter((item) => !item.complete);
+    return this.list.items.filter(
+      (item) => this.showComplete || !item.complete
+    );
   }
   addItem(newItem: string) {
     if (newItem != '') {
       this.list.addItem(newItem);
     }
   }
+  showComplete: boolean = false;
 }
